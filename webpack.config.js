@@ -11,6 +11,7 @@ module.exports = {
     interop: './src/interop/InteropRoot.js',
     retainedProps: './src/retainedProps/RetainedPropsRoot.bs.js',
     animation: './src/animation/AnimationRoot.bs.js',
+    podcasts: './src/podcasts/AppRoot.bs.js',
   },
   mode: isProd ? 'production' : 'development',
   output: {

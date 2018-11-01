@@ -6,7 +6,12 @@
   "bs-dependencies": [
     "reason-react",
     "bs-fetch",
-    "@glennsl/bs-json"
+    "@glennsl/bs-json",
+    "reason-apollo",
+    "bs-css"
+  ],
+  "ppx-flags": [
+    "graphql_ppx/ppx"
   ],
   "sources": [
     {

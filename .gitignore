@@ -1,8 +1,4 @@
+node_modules/
 .merlin
-/node_modules/
-/lib/*
-!/lib/js/*
-/bundledOutputs/
-npm-debug.log
-.DS_Store
-.bsb.lock
+.graphql_ppx_cache/
+bundledOutputs/

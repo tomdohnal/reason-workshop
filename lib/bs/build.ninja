@@ -1,0 +1,171 @@
+bs_package_flags = -bs-package-map reason-react-example
+src_root_dir = /home/tom/Code/other/reason
+bsc = /home/tom/Code/other/reason/node_modules/bs-platform/lib/bsc.exe
+bsdep = /home/tom/Code/other/reason/node_modules/bs-platform/lib/bsb_helper.exe
+warnings = -w -30-40+6+7+27+32..39+44+45+101
+bsc_flags = -bs-suffix -nostdlib -I '/home/tom/Code/other/reason/node_modules/bs-platform/lib/ocaml' -bs-no-version-header -bs-super-errors -color always
+ppx_flags = -ppx '/home/tom/Code/other/reason/node_modules/graphql_ppx/ppx'
+bs_package_includes = -I /home/tom/Code/other/reason/node_modules/reason-react/lib/ocaml -I /home/tom/Code/other/reason/node_modules/bs-fetch/lib/ocaml -I /home/tom/Code/other/reason/node_modules/@glennsl/bs-json/lib/ocaml -I /home/tom/Code/other/reason/node_modules/reason-apollo/lib/ocaml -I /home/tom/Code/other/reason/node_modules/bs-css/lib/ocaml
+bs_package_dev_includes = 
+namespace = -ns ReasonReactExample
+bsb_dir_group = 0
+refmt = /home/tom/Code/other/reason/node_modules/bs-platform/lib/refmt.exe
+reason_react_jsx = -ppx '/home/tom/Code/other/reason/node_modules/bs-platform/lib/reactjs_jsx_ppx_2.exe'
+refmt_flags = --print binary
+bsc_lib_includes = -I . -I src/todomvc -I src/retainedProps -I src/fetch -I src/async -I src/interop -I src/animation -I src/simple -I src/podcasts
+rule build_ast_and_module_sets_from_re
+  command = ${bsc} -pp "${refmt} ${refmt_flags}" ${reason_react_jsx}  ${ppx_flags} ${warnings} ${bsc_flags} -c -o ${out} -bs-syntax-only -bs-binary-ast -impl ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/podcasts/Client.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/podcasts/Client.re
+rule build_deps
+  command = ${bsdep} ${namespace} -g ${bsb_dir_group} -MD ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/podcasts/Client.mlast.d : build_deps src/podcasts/Client.mlast
+rule build_cmj_cmi
+  command = ${bsc} ${bs_package_flags} -bs-assume-no-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} -o ${out} -c  ${in} $postbuild
+  depfile = ${in}.d
+  description = [34mBuilding[39m [2m${out}[22m
+build src/podcasts/Client-ReasonReactExample.cmj |  $src_root_dir/src/podcasts/Client.bs.js src/podcasts/Client-ReasonReactExample.cmi : build_cmj_cmi src/podcasts/Client.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/podcasts
+build src/podcasts/AppRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/podcasts/AppRoot.re
+build src/podcasts/AppRoot.mlast.d : build_deps src/podcasts/AppRoot.mlast
+build src/podcasts/AppRoot-ReasonReactExample.cmj |  $src_root_dir/src/podcasts/AppRoot.bs.js src/podcasts/AppRoot-ReasonReactExample.cmi : build_cmj_cmi src/podcasts/AppRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/podcasts
+build src/podcasts/JustApp.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/podcasts/JustApp.re
+build src/podcasts/JustApp.mlast.d : build_deps src/podcasts/JustApp.mlast
+build src/podcasts/JustApp-ReasonReactExample.cmj |  $src_root_dir/src/podcasts/JustApp.bs.js src/podcasts/JustApp-ReasonReactExample.cmi : build_cmj_cmi src/podcasts/JustApp.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/podcasts
+build src/simple/Page.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/simple/Page.re
+build src/simple/Page.mlast.d : build_deps src/simple/Page.mlast
+build src/simple/Page-ReasonReactExample.cmj |  $src_root_dir/src/simple/Page.bs.js src/simple/Page-ReasonReactExample.cmi : build_cmj_cmi src/simple/Page.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/simple
+build src/simple/SimpleRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/simple/SimpleRoot.re
+build src/simple/SimpleRoot.mlast.d : build_deps src/simple/SimpleRoot.mlast
+build src/simple/SimpleRoot-ReasonReactExample.cmj |  $src_root_dir/src/simple/SimpleRoot.bs.js src/simple/SimpleRoot-ReasonReactExample.cmi : build_cmj_cmi src/simple/SimpleRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/simple
+build src/animation/Demo.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/Demo.re
+build src/animation/Demo.mlast.d : build_deps src/animation/Demo.mlast
+build src/animation/Demo-ReasonReactExample.cmj |  $src_root_dir/src/animation/Demo.bs.js src/animation/Demo-ReasonReactExample.cmi : build_cmj_cmi src/animation/Demo.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/Spring.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/Spring.re
+build src/animation/Spring.mlast.d : build_deps src/animation/Spring.mlast
+build src/animation/Spring-ReasonReactExample.cmj |  $src_root_dir/src/animation/Spring.bs.js src/animation/Spring-ReasonReactExample.cmi : build_cmj_cmi src/animation/Spring.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+rule build_ast_and_module_sets_from_rei
+  command = ${bsc} -pp "${refmt} ${refmt_flags}" ${reason_react_jsx} ${ppx_flags} ${warnings} ${bsc_flags}  -c -o ${out} -bs-syntax-only -bs-binary-ast -intf ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build src/animation/Animation.mliast : build_ast_and_module_sets_from_rei $src_root_dir/src/animation/Animation.rei
+build src/animation/Animation.mliast.d : build_deps src/animation/Animation.mliast
+rule build_cmi
+  command = ${bsc} ${bs_package_flags} -bs-no-builtin-ppx-mli -bs-no-implicit-include ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} -o ${out} -c  ${in}
+  depfile = ${in}.d
+  description = [34mBuilding[39m [2m${out}[22m
+build src/animation/Animation-ReasonReactExample.cmi : build_cmi src/animation/Animation.mliast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/Animation.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/Animation.re
+build src/animation/Animation.mlast.d : build_deps src/animation/Animation.mlast
+rule build_cmj_only
+  command = ${bsc} ${bs_package_flags} -bs-assume-has-mli -bs-no-builtin-ppx-ml -bs-no-implicit-include  ${bs_package_includes} ${bsc_lib_includes} ${bsc_extra_includes} ${warnings} ${bsc_flags} -o ${out} -c  ${in} $postbuild
+  depfile = ${in}.d
+  description = [34mBuilding[39m [2m${out}[22m
+build src/animation/Animation-ReasonReactExample.cmj |  $src_root_dir/src/animation/Animation.bs.js : build_cmj_only src/animation/Animation.mlast |  src/animation/Animation-ReasonReactExample.cmi
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/Reanimate.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/Reanimate.re
+build src/animation/Reanimate.mlast.d : build_deps src/animation/Reanimate.mlast
+build src/animation/Reanimate-ReasonReactExample.cmj |  $src_root_dir/src/animation/Reanimate.bs.js src/animation/Reanimate-ReasonReactExample.cmi : build_cmj_cmi src/animation/Reanimate.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/RemoteAction.mliast : build_ast_and_module_sets_from_rei $src_root_dir/src/animation/RemoteAction.rei
+build src/animation/RemoteAction.mliast.d : build_deps src/animation/RemoteAction.mliast
+build src/animation/RemoteAction-ReasonReactExample.cmi : build_cmi src/animation/RemoteAction.mliast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/RemoteAction.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/RemoteAction.re
+build src/animation/RemoteAction.mlast.d : build_deps src/animation/RemoteAction.mlast
+build src/animation/RemoteAction-ReasonReactExample.cmj |  $src_root_dir/src/animation/RemoteAction.bs.js : build_cmj_only src/animation/RemoteAction.mlast |  src/animation/RemoteAction-ReasonReactExample.cmi
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/AnimationRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/AnimationRoot.re
+build src/animation/AnimationRoot.mlast.d : build_deps src/animation/AnimationRoot.mlast
+build src/animation/AnimationRoot-ReasonReactExample.cmj |  $src_root_dir/src/animation/AnimationRoot.bs.js src/animation/AnimationRoot-ReasonReactExample.cmi : build_cmj_cmi src/animation/AnimationRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/SpringAnimation.mliast : build_ast_and_module_sets_from_rei $src_root_dir/src/animation/SpringAnimation.rei
+build src/animation/SpringAnimation.mliast.d : build_deps src/animation/SpringAnimation.mliast
+build src/animation/SpringAnimation-ReasonReactExample.cmi : build_cmi src/animation/SpringAnimation.mliast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/animation/SpringAnimation.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/animation/SpringAnimation.re
+build src/animation/SpringAnimation.mlast.d : build_deps src/animation/SpringAnimation.mlast
+build src/animation/SpringAnimation-ReasonReactExample.cmj |  $src_root_dir/src/animation/SpringAnimation.bs.js : build_cmj_only src/animation/SpringAnimation.mlast |  src/animation/SpringAnimation-ReasonReactExample.cmi
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/animation
+build src/interop/GreetingRe.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/interop/GreetingRe.re
+build src/interop/GreetingRe.mlast.d : build_deps src/interop/GreetingRe.mlast
+build src/interop/GreetingRe-ReasonReactExample.cmj |  $src_root_dir/src/interop/GreetingRe.bs.js src/interop/GreetingRe-ReasonReactExample.cmi : build_cmj_cmi src/interop/GreetingRe.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/interop
+build src/interop/MyBannerRe.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/interop/MyBannerRe.re
+build src/interop/MyBannerRe.mlast.d : build_deps src/interop/MyBannerRe.mlast
+build src/interop/MyBannerRe-ReasonReactExample.cmj |  $src_root_dir/src/interop/MyBannerRe.bs.js src/interop/MyBannerRe-ReasonReactExample.cmi : build_cmj_cmi src/interop/MyBannerRe.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/interop
+build src/async/Counter.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/async/Counter.re
+build src/async/Counter.mlast.d : build_deps src/async/Counter.mlast
+build src/async/Counter-ReasonReactExample.cmj |  $src_root_dir/src/async/Counter.bs.js src/async/Counter-ReasonReactExample.cmi : build_cmj_cmi src/async/Counter.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/async
+build src/async/CounterRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/async/CounterRoot.re
+build src/async/CounterRoot.mlast.d : build_deps src/async/CounterRoot.mlast
+build src/async/CounterRoot-ReasonReactExample.cmj |  $src_root_dir/src/async/CounterRoot.bs.js src/async/CounterRoot-ReasonReactExample.cmi : build_cmj_cmi src/async/CounterRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/async
+build src/fetch/FetchExample.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/fetch/FetchExample.re
+build src/fetch/FetchExample.mlast.d : build_deps src/fetch/FetchExample.mlast
+build src/fetch/FetchExample-ReasonReactExample.cmj |  $src_root_dir/src/fetch/FetchExample.bs.js src/fetch/FetchExample-ReasonReactExample.cmi : build_cmj_cmi src/fetch/FetchExample.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/fetch
+build src/fetch/FetchExampleRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/fetch/FetchExampleRoot.re
+build src/fetch/FetchExampleRoot.mlast.d : build_deps src/fetch/FetchExampleRoot.mlast
+build src/fetch/FetchExampleRoot-ReasonReactExample.cmj |  $src_root_dir/src/fetch/FetchExampleRoot.bs.js src/fetch/FetchExampleRoot-ReasonReactExample.cmi : build_cmj_cmi src/fetch/FetchExampleRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/fetch
+build src/retainedProps/RetainedPropsRoot.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/retainedProps/RetainedPropsRoot.re
+build src/retainedProps/RetainedPropsRoot.mlast.d : build_deps src/retainedProps/RetainedPropsRoot.mlast
+build src/retainedProps/RetainedPropsRoot-ReasonReactExample.cmj |  $src_root_dir/src/retainedProps/RetainedPropsRoot.bs.js src/retainedProps/RetainedPropsRoot-ReasonReactExample.cmi : build_cmj_cmi src/retainedProps/RetainedPropsRoot.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/retainedProps
+build src/retainedProps/RetainedPropsExample.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/retainedProps/RetainedPropsExample.re
+build src/retainedProps/RetainedPropsExample.mlast.d : build_deps src/retainedProps/RetainedPropsExample.mlast
+build src/retainedProps/RetainedPropsExample-ReasonReactExample.cmj |  $src_root_dir/src/retainedProps/RetainedPropsExample.bs.js src/retainedProps/RetainedPropsExample-ReasonReactExample.cmi : build_cmj_cmi src/retainedProps/RetainedPropsExample.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/retainedProps
+build src/todomvc/App.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/todomvc/App.re
+build src/todomvc/App.mlast.d : build_deps src/todomvc/App.mlast
+build src/todomvc/App-ReasonReactExample.cmj |  $src_root_dir/src/todomvc/App.bs.js src/todomvc/App-ReasonReactExample.cmi : build_cmj_cmi src/todomvc/App.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/todomvc
+build src/todomvc/TodoItem.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/todomvc/TodoItem.re
+build src/todomvc/TodoItem.mlast.d : build_deps src/todomvc/TodoItem.mlast
+build src/todomvc/TodoItem-ReasonReactExample.cmj |  $src_root_dir/src/todomvc/TodoItem.bs.js src/todomvc/TodoItem-ReasonReactExample.cmi : build_cmj_cmi src/todomvc/TodoItem.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/todomvc
+build src/todomvc/TodoFooter.mlast : build_ast_and_module_sets_from_re $src_root_dir/src/todomvc/TodoFooter.re
+build src/todomvc/TodoFooter.mlast.d : build_deps src/todomvc/TodoFooter.mlast
+build src/todomvc/TodoFooter-ReasonReactExample.cmj |  $src_root_dir/src/todomvc/TodoFooter.bs.js src/todomvc/TodoFooter-ReasonReactExample.cmi : build_cmj_cmi src/todomvc/TodoFooter.mlast
+  bsc_flags = $bsc_flags -bs-re-out -bs-super-errors
+  bs_package_flags = $bs_package_flags  -bs-package-output commonjs:src/todomvc
+rule build_package
+  command = ${bsc} -w -49 -no-alias-deps -c ${in}
+  description = [34mBuilding[39m [2m${out}[22m
+build ReasonReactExample.cmi : build_package ReasonReactExample.mlmap
+build build.ninja : phony  ||  ReasonReactExample.cmi src/todomvc/TodoFooter.mlast.d src/todomvc/TodoItem.mlast.d src/todomvc/App.mlast.d src/retainedProps/RetainedPropsExample.mlast.d src/retainedProps/RetainedPropsRoot.mlast.d src/fetch/FetchExampleRoot.mlast.d src/fetch/FetchExample.mlast.d src/async/CounterRoot.mlast.d src/async/Counter.mlast.d src/interop/MyBannerRe.mlast.d src/interop/GreetingRe.mlast.d src/animation/SpringAnimation.mlast.d src/animation/SpringAnimation.mliast.d src/animation/AnimationRoot.mlast.d src/animation/RemoteAction.mlast.d src/animation/RemoteAction.mliast.d src/animation/Reanimate.mlast.d src/animation/Animation.mlast.d src/animation/Animation.mliast.d src/animation/Spring.mlast.d src/animation/Demo.mlast.d src/simple/SimpleRoot.mlast.d src/simple/Page.mlast.d src/podcasts/JustApp.mlast.d src/podcasts/AppRoot.mlast.d src/podcasts/Client.mlast.d
